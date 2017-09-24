@@ -10,7 +10,6 @@ namespace BizzLayer
 {
     public class LoginController
     {
-        static SqlConnection con = new SqlConnection("Data Source=KOMP;Initial Catalog=Service_System_DB;Integrated Security=True");
         public static bool Login(String username, String password, String role)
         {
             ServiceSystemDataContext dbContext = new ServiceSystemDataContext();
