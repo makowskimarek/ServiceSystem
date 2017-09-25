@@ -17,6 +17,7 @@ namespace ServiceSystem
         {
             InitializeComponent();
             dataGridView1.DataSource = ClientController.GetAllClients();
+            dataGridView1.Columns[5].Visible = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -30,7 +31,7 @@ namespace ServiceSystem
         {
             Form form;
             var selectedClient = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
-            form = new ObjectWindow(selectedClient);
+            form = new ObjectWindow(this, null, selectedClient, null);
             form.Show();
         }
 

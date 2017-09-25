@@ -21,7 +21,7 @@ namespace ServiceSystem
         private void button4_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new RequestWindow();
+            form = new RequestWindow(null);
             form.Show();
         }
 

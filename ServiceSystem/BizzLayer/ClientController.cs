@@ -86,6 +86,15 @@ namespace BizzLayer
             }
         }
 
+        public static CLIENT GetClientById(int id) {
+            using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext()) {
+                var query = (from c in dbContext.CLIENT
+                            where c.id_client == id
+                            select c).FirstOrDefault();
+                return query;
+            }
+        }
+
         public static bool DeleteClient(CLIENT client)
         {
             using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())

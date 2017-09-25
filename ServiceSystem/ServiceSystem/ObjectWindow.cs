@@ -13,18 +13,42 @@ namespace ServiceSystem
 {
     public partial class ObjectWindow : Form
     {
-        CLIENT currClient;
-        public ObjectWindow(CLIENT client)
+        CLIENT currClient = null;
+        OBJECT currObject = null;
+        ObjectListWindow windowForm2;
+        ClientListWindow windowForm1;
+        public ObjectWindow(ClientListWindow form1, ObjectListWindow form2, CLIENT client, OBJECT obj)
         {
             InitializeComponent();
+            windowForm1 = form1;
+            windowForm2 = form2;
             if (client != null)
             {
                 currClient = client;
-                SetValues();
+                SetClientValues();
+            }
+            if (obj != null)
+            {
+                currObject = obj;
+                Console.WriteLine(currObject.nr_obj);
+                SetObjectValues();
             }
         }
 
-        public void SetValues()
+        public void SetObjectValues()
+        {
+            textBox1.Text = currObject.code;
+            switch (currObject.code_type)
+            {
+                case "Car":
+                    comboBox1.SelectedIndex = 0;
+                    break;
+                case "Truck":
+                    comboBox1.SelectedIndex = 1;
+                    break;
+            }
+        }
+        public void SetClientValues()
         {
             label4.Text = currClient.name;
             label5.Text = currClient.fname;
@@ -34,17 +58,42 @@ namespace ServiceSystem
         private void onSaveClick(object sender, EventArgs e)
         {
             OBJECT obj = new OBJECT();
-            obj.id_cli = currClient.id_client;
+            if (windowForm2 != null)
+            {
+                obj.nr_obj = currObject.nr_obj;
+            }
+            else
+            {
+                obj.id_cli = currClient.id_client;
+            }
+            Console.WriteLine(obj.nr_obj);
             obj.code = textBox1.Text;
             obj.code_type = comboBox1.Text;
-            Console.WriteLine(obj.id_cli);
-            if (ObjectController.AddNewObject(obj))
+            if (currObject != null)
             {
-                this.Close();
+                if (ObjectController.UpdateObject(obj))
+                {
+                    windowForm2.PerformRefresh();
+                    this.Close();
+                    
+                }
+                else
+                {
+                    MessageBox.Show("Object details have not been changed. Try again...", "Operation result",
+                         MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                }
             }
             else {
-                MessageBox.Show("The new object has not been added. Try again...", "Operation result",
-                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                if (ObjectController.AddNewObject(obj))
+                {
+                    windowForm1.PerformRefresh();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("The new object has not been added. Try again...", "Operation result",
+                         MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                }
             }
         }
 
