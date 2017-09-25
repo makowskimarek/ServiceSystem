@@ -113,6 +113,7 @@ namespace ServiceSystem
                     {
                         if (PersonelController.ChangePersonelItemData(currentAccount, new_account))
                         {
+                            admForm.PerformRefreshAfterChange();
                             MessageBox.Show("Account details has been changed", "Account details edition",
                                 MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
                             this.Close();

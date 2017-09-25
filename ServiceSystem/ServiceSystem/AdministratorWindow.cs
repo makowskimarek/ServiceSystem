@@ -13,6 +13,9 @@ namespace ServiceSystem
 {
     public partial class AdministratorWindow : Form
     {
+
+        PersonelController.Personel srchCriteria = new PersonelController.Personel();
+
         public AdministratorWindow()
         {
             InitializeComponent();
@@ -27,6 +30,12 @@ namespace ServiceSystem
             textBox2.Text = "";
             comboBox1.ResetText();
 
+        }
+
+        public void PerformRefreshAfterChange()
+        {
+            dataGridView1.Refresh();
+            dataGridView1.DataSource = PersonelController.GetAccountsWithCriteria(srchCriteria);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -81,7 +90,7 @@ namespace ServiceSystem
             String firstName = textBox1.Text;
             String lastName = textBox2.Text;
             int role = comboBox1.SelectedIndex;
-            PersonelController.Personel srchCriteria = new PersonelController.Personel();
+            srchCriteria = new PersonelController.Personel();
             srchCriteria.first_name = firstName;
             srchCriteria.last_name = lastName;
             switch (role)
