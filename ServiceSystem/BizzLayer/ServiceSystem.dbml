@@ -34,6 +34,13 @@
       <Association Name="CLIENT_ADRES" Member="CLIENT" ThisKey="id_cli" OtherKey="id_client" Type="CLIENT" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.OBJ_TYPE" Member="OBJ_TYPE">
+    <Type Name="OBJ_TYPE">
+      <Column Name="code_type" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="name_type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="OBJ_TYPE_OBJECT" Member="OBJECT" ThisKey="code_type" OtherKey="code_type" Type="OBJECT" />
+    </Type>
+  </Table>
   <Table Name="dbo.CLIENT" Member="CLIENT">
     <Type Name="CLIENT">
       <Column Name="id_client" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -43,13 +50,6 @@
       <Column Name="tel" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="CLIENT_ADRES" Member="ADRES" ThisKey="id_client" OtherKey="id_cli" Type="ADRES" Cardinality="One" />
       <Association Name="CLIENT_OBJECT" Member="OBJECT" ThisKey="id_client" OtherKey="id_cli" Type="OBJECT" />
-    </Type>
-  </Table>
-  <Table Name="dbo.OBJ_TYPE" Member="OBJ_TYPE">
-    <Type Name="OBJ_TYPE">
-      <Column Name="code_type" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
-      <Column Name="name_type" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="OBJ_TYPE_OBJECT" Member="OBJECT" ThisKey="code_type" OtherKey="code_type" Type="OBJECT" />
     </Type>
   </Table>
   <Table Name="dbo.OBJECT" Member="OBJECT">

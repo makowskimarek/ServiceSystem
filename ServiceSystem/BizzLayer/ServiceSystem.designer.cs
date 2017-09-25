@@ -39,12 +39,12 @@ namespace BizzLayer
     partial void InsertADRES(ADRES instance);
     partial void UpdateADRES(ADRES instance);
     partial void DeleteADRES(ADRES instance);
-    partial void InsertCLIENT(CLIENT instance);
-    partial void UpdateCLIENT(CLIENT instance);
-    partial void DeleteCLIENT(CLIENT instance);
     partial void InsertOBJ_TYPE(OBJ_TYPE instance);
     partial void UpdateOBJ_TYPE(OBJ_TYPE instance);
     partial void DeleteOBJ_TYPE(OBJ_TYPE instance);
+    partial void InsertCLIENT(CLIENT instance);
+    partial void UpdateCLIENT(CLIENT instance);
+    partial void DeleteCLIENT(CLIENT instance);
     partial void InsertOBJECT(OBJECT instance);
     partial void UpdateOBJECT(OBJECT instance);
     partial void DeleteOBJECT(OBJECT instance);
@@ -116,19 +116,19 @@ namespace BizzLayer
 			}
 		}
 		
-		public System.Data.Linq.Table<CLIENT> CLIENT
-		{
-			get
-			{
-				return this.GetTable<CLIENT>();
-			}
-		}
-		
 		public System.Data.Linq.Table<OBJ_TYPE> OBJ_TYPE
 		{
 			get
 			{
 				return this.GetTable<OBJ_TYPE>();
+			}
+		}
+		
+		public System.Data.Linq.Table<CLIENT> CLIENT
+		{
+			get
+			{
+				return this.GetTable<CLIENT>();
 			}
 		}
 		
@@ -887,6 +887,120 @@ namespace BizzLayer
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OBJ_TYPE")]
+	public partial class OBJ_TYPE : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _code_type;
+		
+		private string _name_type;
+		
+		private EntitySet<OBJECT> _OBJECT;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Oncode_typeChanging(string value);
+    partial void Oncode_typeChanged();
+    partial void Onname_typeChanging(string value);
+    partial void Onname_typeChanged();
+    #endregion
+		
+		public OBJ_TYPE()
+		{
+			this._OBJECT = new EntitySet<OBJECT>(new Action<OBJECT>(this.attach_OBJECT), new Action<OBJECT>(this.detach_OBJECT));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code_type", DbType="VarChar(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string code_type
+		{
+			get
+			{
+				return this._code_type;
+			}
+			set
+			{
+				if ((this._code_type != value))
+				{
+					this.Oncode_typeChanging(value);
+					this.SendPropertyChanging();
+					this._code_type = value;
+					this.SendPropertyChanged("code_type");
+					this.Oncode_typeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name_type", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string name_type
+		{
+			get
+			{
+				return this._name_type;
+			}
+			set
+			{
+				if ((this._name_type != value))
+				{
+					this.Onname_typeChanging(value);
+					this.SendPropertyChanging();
+					this._name_type = value;
+					this.SendPropertyChanged("name_type");
+					this.Onname_typeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OBJ_TYPE_OBJECT", Storage="_OBJECT", ThisKey="code_type", OtherKey="code_type")]
+		public EntitySet<OBJECT> OBJECT
+		{
+			get
+			{
+				return this._OBJECT;
+			}
+			set
+			{
+				this._OBJECT.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_OBJECT(OBJECT entity)
+		{
+			this.SendPropertyChanging();
+			entity.OBJ_TYPE = this;
+		}
+		
+		private void detach_OBJECT(OBJECT entity)
+		{
+			this.SendPropertyChanging();
+			entity.OBJ_TYPE = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CLIENT")]
 	public partial class CLIENT : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -1102,120 +1216,6 @@ namespace BizzLayer
 		{
 			this.SendPropertyChanging();
 			entity.CLIENT = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.OBJ_TYPE")]
-	public partial class OBJ_TYPE : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _code_type;
-		
-		private string _name_type;
-		
-		private EntitySet<OBJECT> _OBJECT;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void Oncode_typeChanging(string value);
-    partial void Oncode_typeChanged();
-    partial void Onname_typeChanging(string value);
-    partial void Onname_typeChanged();
-    #endregion
-		
-		public OBJ_TYPE()
-		{
-			this._OBJECT = new EntitySet<OBJECT>(new Action<OBJECT>(this.attach_OBJECT), new Action<OBJECT>(this.detach_OBJECT));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_code_type", DbType="VarChar(5) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string code_type
-		{
-			get
-			{
-				return this._code_type;
-			}
-			set
-			{
-				if ((this._code_type != value))
-				{
-					this.Oncode_typeChanging(value);
-					this.SendPropertyChanging();
-					this._code_type = value;
-					this.SendPropertyChanged("code_type");
-					this.Oncode_typeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_name_type", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string name_type
-		{
-			get
-			{
-				return this._name_type;
-			}
-			set
-			{
-				if ((this._name_type != value))
-				{
-					this.Onname_typeChanging(value);
-					this.SendPropertyChanging();
-					this._name_type = value;
-					this.SendPropertyChanged("name_type");
-					this.Onname_typeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="OBJ_TYPE_OBJECT", Storage="_OBJECT", ThisKey="code_type", OtherKey="code_type")]
-		public EntitySet<OBJECT> OBJECT
-		{
-			get
-			{
-				return this._OBJECT;
-			}
-			set
-			{
-				this._OBJECT.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_OBJECT(OBJECT entity)
-		{
-			this.SendPropertyChanging();
-			entity.OBJ_TYPE = this;
-		}
-		
-		private void detach_OBJECT(OBJECT entity)
-		{
-			this.SendPropertyChanging();
-			entity.OBJ_TYPE = null;
 		}
 	}
 	

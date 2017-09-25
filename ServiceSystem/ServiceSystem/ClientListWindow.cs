@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BizzLayer;
 
 namespace ServiceSystem
 {
@@ -15,12 +16,13 @@ namespace ServiceSystem
         public ClientListWindow()
         {
             InitializeComponent();
+            dataGridView1.DataSource = ClientController.GetAllClients();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ClientWindow();
+            form = new ClientWindow(this, null);
             form.Show();
         }
 
@@ -70,8 +72,31 @@ namespace ServiceSystem
         private void button4_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ClientWindow();
+            var selectedClient = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
+            form = new ClientWindow(this, selectedClient);
             form.Show();
+        }
+
+        public void PerformRefresh()
+        {
+            dataGridView1.Refresh();
+            dataGridView1.DataSource = ClientController.GetAllClients();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var selectedClient = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
+            if (ClientController.DeleteClient(selectedClient))
+            {
+                PerformRefresh();
+                MessageBox.Show("Selected client has been deleted", "Delete result",
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            }
+            else
+            {
+                MessageBox.Show("Selected client has not been deleted. Try again...", "Delete result",
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            }
         }
     }
 }
