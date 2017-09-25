@@ -20,7 +20,7 @@ namespace ServiceSystem
         private void button4_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ObjectWindow();
+            form = new ObjectWindow(null);
             form.Show();
         }
 

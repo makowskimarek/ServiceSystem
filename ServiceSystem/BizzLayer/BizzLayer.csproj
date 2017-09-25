@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientController.cs" />
+    <Compile Include="ObjectController.cs" />
     <Compile Include="PersonelController.cs" />
     <Compile Include="LoginController.cs" />
     <Compile Include="Program.cs" />

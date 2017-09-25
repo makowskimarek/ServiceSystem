@@ -29,7 +29,8 @@ namespace ServiceSystem
         private void button5_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ObjectWindow();
+            var selectedClient = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
+            form = new ObjectWindow(selectedClient);
             form.Show();
         }
 
@@ -97,6 +98,15 @@ namespace ServiceSystem
                 MessageBox.Show("Selected client has not been deleted. Try again...", "Delete result",
                      MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CLIENT client = new CLIENT();
+            client.name = textBox1.Text;
+            client.fname = textBox2.Text;
+            client.lname = textBox3.Text;
+            dataGridView1.DataSource = ClientController.GetClientsByCriteria(client);
         }
     }
 }

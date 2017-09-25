@@ -14,7 +14,6 @@ namespace BizzLayer
         {
             var dbContext = new ServiceSystemDataContext();
             List<CLIENT> cliList = new List<CLIENT>();
-            List<CLIENT> retList = new List<CLIENT>();
             var query = from c in dbContext.CLIENT
                         join a in dbContext.ADRES
                         on c.id_client equals a.id_cli
@@ -31,6 +30,60 @@ namespace BizzLayer
 
             return cliList;
 
+        }
+
+        public static List<CLIENT> GetClientsByCriteria(CLIENT criteria)
+        {
+            using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
+            {
+                var clients = from c in dbContext.CLIENT
+                              join a in dbContext.ADRES
+                              on c.id_client equals a.id_cli
+                              select c;
+
+                if (criteria.name.Length != 0 && criteria.fname.Length != 0 && criteria.lname.Length != 0)
+                {
+                    clients = clients.Where(c => c.name == criteria.name && c.fname == criteria.fname && c.lname == criteria.lname);
+                }
+                else if (criteria.name.Length != 0 && criteria.fname.Length != 0)
+                {
+                    clients = clients.Where(c => c.name == criteria.name && c.fname == criteria.fname);
+                }
+                else if (criteria.name.Length != 0 && criteria.lname.Length != 0)
+                {
+                    clients = clients.Where(c => c.name == criteria.name && c.lname == criteria.lname);
+                }
+                else if (criteria.fname.Length != 0 && criteria.lname.Length != 0)
+                {
+                    clients = clients.Where(c => c.fname == criteria.fname && c.lname == criteria.lname);
+                }
+                else if (criteria.name.Length != 0)
+                {
+                    clients = clients.Where(c => c.name == criteria.name);
+                }
+                else if (criteria.fname.Length != 0)
+                {
+                    clients = clients.Where(c => c.fname == criteria.fname);
+                }
+                else if (criteria.lname.Length != 0)
+                {
+                    clients = clients.Where(c => c.lname == criteria.lname);
+                }
+
+                List<CLIENT> cliList = new List<CLIENT>();
+
+                foreach (var q in clients)
+                {
+                    CLIENT newCli = new CLIENT();
+                    newCli.id_client = q.id_client;
+                    newCli.name = q.name;
+                    newCli.fname = q.fname;
+                    newCli.lname = q.lname;
+                    newCli.tel = q.tel;
+                    cliList.Add(newCli);
+                }
+                return cliList;
+            }
         }
 
         public static bool DeleteClient(CLIENT client)
