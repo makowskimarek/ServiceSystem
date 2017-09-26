@@ -48,21 +48,21 @@ namespace ServiceSystem
         private void objectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ObjectListWindow(manager);
+            form = new ObjectListWindow(manager, null);
             form.Show();
         }
 
         private void requestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new RequestListWindow(manager);
+            form = new RequestListWindow(manager, null, null);
             form.Show();
         }
 
         private void activityToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ActivityListWindow(Mode.MANAGER);
+            form = new ActivityListWindow(Mode.MANAGER, 0);
             form.Show();
         }
 
@@ -108,7 +108,8 @@ namespace ServiceSystem
         private void onShowClick(object sender, EventArgs e)
         {
             Form form;
-            form = new ObjectListWindow(manager);
+            CLIENT client = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
+            form = new ObjectListWindow(manager, client);
             form.Show();
         }
     }

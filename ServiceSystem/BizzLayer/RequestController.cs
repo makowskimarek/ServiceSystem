@@ -78,6 +78,14 @@ namespace BizzLayer
         {
             using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
             {
+                var activities = from a in dbContext.ACTIVITY
+                               where a.id_req == request.id_req
+                               select a;
+                foreach (var act in activities)
+                {
+                    dbContext.ACTIVITY.DeleteOnSubmit(act);
+                }
+
                 try
                 {
                     REQUEST req = dbContext.REQUEST.SingleOrDefault(x => x.id_req == request.id_req);

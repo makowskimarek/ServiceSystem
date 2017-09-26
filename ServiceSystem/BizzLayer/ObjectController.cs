@@ -111,21 +111,23 @@ namespace BizzLayer
                     query = query.Where(c => c.lname == client.lname);
                 }
 
-                
-                if (obj.code.Length != 0 && obj.code_type.Length != 0)
+                if (obj != null)
                 {
-                    query = query.Where(c => c.code == obj.code && c.code_type == obj.code_type);
-                }
-                else if(obj.code.Length != 0)
-                {
-                    query = query.Where(c => c.code == obj.code);
-                }
-                else if(obj.code_type.Length != 0)
-                {
-                    query = query.Where(c => c.code_type == obj.code_type);
-                }
-                
 
+                    if (obj.code.Length != 0 && obj.code_type.Length != 0)
+                    {
+                        query = query.Where(c => c.code == obj.code && c.code_type == obj.code_type);
+                    }
+                    else if (obj.code.Length != 0)
+                    {
+                        query = query.Where(c => c.code == obj.code);
+                    }
+                    else if (obj.code_type.Length != 0)
+                    {
+                        query = query.Where(c => c.code_type == obj.code_type);
+                    }
+                }
+                
                 return query.ToList();
             }
         }
@@ -143,7 +145,7 @@ namespace BizzLayer
                              nr_obj = o.nr_obj,
                              name = c.name,
                              fname = c.fname,
-                             lname = c.fname,
+                             lname = c.lname,
                              tel = c.tel
                          });
 
@@ -168,6 +170,16 @@ namespace BizzLayer
             using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext()) {
                 try
                 {
+                    var requests = from r in dbContext.REQUEST
+                                  where r.nr_obj == obj.nr_obj
+                                  select r;
+                    foreach (var req in requests)
+                    {
+                        RequestController.DeleteRequest(req);
+                    }
+
+
+
                     OBJECT obj1 = dbContext.OBJECT.SingleOrDefault(x => x.nr_obj == obj.nr_obj);
                     dbContext.OBJECT.DeleteOnSubmit(obj1);
                     dbContext.SubmitChanges();

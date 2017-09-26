@@ -14,13 +14,27 @@ namespace ServiceSystem
     public partial class RequestListWindow : Form
     {
         public PERSONEL manager;
-        public RequestListWindow(PERSONEL man)
+        public CLIENT currClient;
+        public OBJECT currObject;
+        public RequestListWindow(PERSONEL man, CLIENT cli, OBJECT obj)
         {
             InitializeComponent();
             manager = man;
             dataGridView1.DataSource = RequestController.GetAllRequests();
             dataGridView1.Columns["OBJECT"].Visible = false;
             dataGridView1.Columns["PERSONEL"].Visible = false;
+
+            if (cli != null && obj != null)
+            {
+                currClient = cli;
+                currObject = obj;
+                textBox1.Text = currClient.name;
+                textBox2.Text = currClient.fname;
+                textBox3.Text = currClient.lname;
+                textBox4.Text = currObject.code;
+                comboBox1.Text = currObject.code_type;
+                dataGridView1.DataSource = RequestController.GetRequestsByCriteria(currClient, obj);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -35,7 +49,7 @@ namespace ServiceSystem
         private void button6_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ActivityListWindow(Mode.MANAGER);
+            form = new ActivityListWindow(Mode.MANAGER, 0);
             form.Show();
         }
 
@@ -75,7 +89,7 @@ namespace ServiceSystem
             var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
             OBJECT obj = ObjectController.GetObjectById(selectedRequest.nr_obj);
             Form form;
-            form = new ActivityWindow(Mode.MANAGER, null, obj, selectedRequest);
+            form = new ActivityWindow(Mode.MANAGER, null, obj, selectedRequest, null);
             form.Show();
         }
     }

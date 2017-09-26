@@ -101,6 +101,14 @@ namespace BizzLayer
             {
                 try
                 {
+                    var objects = from o in dbContext.OBJECT
+                                  where o.id_cli == client.id_client
+                                  select o;
+                    foreach (var obj in objects)
+                    {
+                        ObjectController.DeleteObject(obj);
+                    }
+
                     CLIENT cli = dbContext.CLIENT.SingleOrDefault(x => x.id_client == client.id_client);
                     dbContext.CLIENT.DeleteOnSubmit(cli);
                     ADRES adr = dbContext.ADRES.SingleOrDefault(x => x.id_cli == client.id_client);
@@ -161,6 +169,7 @@ namespace BizzLayer
                 lname = client.lname,
                 tel = client.tel
             };
+
 
             dc.CLIENT.InsertOnSubmit(newClient);
 

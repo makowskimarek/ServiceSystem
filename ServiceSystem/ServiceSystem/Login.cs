@@ -57,9 +57,10 @@ namespace ServiceSystem
             }
             else if (comboBox1.Text == "Worker")
             {
-                if (LoginController.Login(username, password, "wrk") != null)
+                person = LoginController.Login(username, password, "wrk");
+                if (person != null)
                 {
-                    form = new ActivityListWindow(Mode.WORKER);
+                    form = new ActivityListWindow(Mode.WORKER, person.id_pers);
                     form.Show();
                     this.Hide();
                 }

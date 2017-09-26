@@ -89,28 +89,37 @@ namespace ServiceSystem
         private void onSaveClicked(object sender, EventArgs e)
         {
             REQUEST request = new REQUEST();
-            request.descr = richTextBox1.Text;
-            request.result = richTextBox2.Text;
-            request.dt_req = dateTimePicker1.Value;
-            request.dt_fin_cancel = dateTimePicker2.Value;
-            request.id_man = manager.id_pers;
-            request.nr_obj = currObject.nr_obj;
-            switch (comboBox1.Text)
+            try
             {
-                case "OPENED":
-                    request.status = "OPEN";
-                    break;
-                case "PROGRESS":
-                    request.status = "PROG";
-                    break;
-                case "FINISHED":
-                    request.status = "FIN";
-                    break;
-                case "CANCELLED":
-                    request.status = "CANC";
-                    break;
+                request.descr = richTextBox1.Text;
+                request.result = richTextBox2.Text;
+                request.dt_req = dateTimePicker1.Value;
+                request.dt_fin_cancel = dateTimePicker2.Value;
+                request.id_man = manager.id_pers;
+                request.nr_obj = currObject.nr_obj;
+                switch (comboBox1.Text)
+                {
+                    case "OPENED":
+                        request.status = "OPEN";
+                        break;
+                    case "PROGRESS":
+                        request.status = "PROG";
+                        break;
+                    case "FINISHED":
+                        request.status = "FIN";
+                        break;
+                    case "CANCELLED":
+                        request.status = "CANC";
+                        break;
 
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The values inserted to fields were not correct. Please try again...", "Error details",
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+            }
+            
             if (currRequest != null)
             {
                 request.id_req = currRequest.id_req;
@@ -119,13 +128,24 @@ namespace ServiceSystem
                     requestForm.PerformRefresh();
                     this.Close();
                 }
+                else
+                {
+                    MessageBox.Show("The values inserted to fields were not correct. Please try again...", "Error details",
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+                }
             }
             else
             {
                 if (RequestController.AddNewRequest(request))
                 {
-                   objectForm.PerformRefresh();
+                    objectForm.PerformRefresh();
                     this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("The values inserted to fields were not correct. Please try again...", "Error details",
+                     MessageBoxButtons.OKCancel, MessageBoxIcon.Asterisk);
+
                 }
             }
             
