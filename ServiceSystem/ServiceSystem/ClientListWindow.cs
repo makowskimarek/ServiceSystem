@@ -32,6 +32,7 @@ namespace ServiceSystem
         private void button5_Click(object sender, EventArgs e)
         {
             Form form;
+            //TODO catch null
             var selectedClient = (CLIENT)this.dataGridView1.CurrentRow.DataBoundItem;
             form = new ObjectWindow(this, null, selectedClient, null);
             form.Show();
@@ -103,6 +104,7 @@ namespace ServiceSystem
             client.fname = textBox2.Text;
             client.lname = textBox3.Text;
             dataGridView1.DataSource = ClientController.GetClientsByCriteria(client);
+
         }
 
         private void onShowClick(object sender, EventArgs e)

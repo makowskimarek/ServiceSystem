@@ -153,55 +153,57 @@ namespace BizzLayer
 
         public static bool InsertNewClient(CLIENT client, ADRES address)
         {
-            var dc = new ServiceSystemDataContext();
-            var newClient = new CLIENT
+            using (ServiceSystemDataContext dc = new ServiceSystemDataContext())
             {
-                name = client.name,
-                fname = client.fname,
-                lname = client.lname,
-                tel = client.tel
-            };
 
-            dc.CLIENT.InsertOnSubmit(newClient);
-
-            try
-            {
-                dc.SubmitChanges();
-                Console.WriteLine(newClient.id_client);
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-
-            var db = new ServiceSystemDataContext();
-            ADRES newAdress = new ADRES
-            {
-                id_cli = newClient.id_client,
-                street = address.street,
-                city = address.city,
-                post_code = address.post_code,
-                nation = address.nation
-            };
-            Console.WriteLine(newAdress.id_cli);
-            db.ADRES.InsertOnSubmit(newAdress);
-
-            try
-            {
-                db.SubmitChanges();
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                using (ServiceSystemDataContext newDbContext = new ServiceSystemDataContext())
+                var newClient = new CLIENT
                 {
-                    CLIENT cli = newDbContext.CLIENT.SingleOrDefault(x => x.id_client == newClient.id_client);
-                    newDbContext.CLIENT.DeleteOnSubmit(cli);
-                    newDbContext.SubmitChanges();
+                    name = client.name,
+                    fname = client.fname,
+                    lname = client.lname,
+                    tel = client.tel
+                };
+
+                dc.CLIENT.InsertOnSubmit(newClient);
+
+                try
+                {
+                    dc.SubmitChanges();
                 }
-                return false;
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+                ADRES newAdress = new ADRES
+                {
+                    id_cli = newClient.id_client,
+                    street = address.street,
+                    city = address.city,
+                    post_code = address.post_code,
+                    nation = address.nation
+                };
+                Console.WriteLine(newAdress.id_cli);
+                dc.ADRES.InsertOnSubmit(newAdress);
+
+                try
+                {
+                    dc.SubmitChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    using (ServiceSystemDataContext newDbContext = new ServiceSystemDataContext())
+                    {
+                        CLIENT cli = newDbContext.CLIENT.SingleOrDefault(x => x.id_client == newClient.id_client);
+                        newDbContext.CLIENT.DeleteOnSubmit(cli);
+                        newDbContext.SubmitChanges();
+                    }
+                    return false;
+                }
             }
+
 
 
         }

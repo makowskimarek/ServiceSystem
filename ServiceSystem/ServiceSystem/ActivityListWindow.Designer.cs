@@ -1,4 +1,5 @@
 ﻿namespace ServiceSystem
+
 {
     partial class ActivityListWindow
     {
@@ -6,6 +7,7 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
 
         /// <summary>
         /// Clean up any resources being used.
@@ -207,6 +209,10 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Items.AddRange(new object[] {
+            "ONE",
+            "THREE",
+            "TWO"});
             this.comboBox2.Location = new System.Drawing.Point(10, 80);
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(128, 24);
@@ -286,6 +292,7 @@
             this.button1.TabIndex = 43;
             this.button1.Text = "search";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // buttonClose
             // 
