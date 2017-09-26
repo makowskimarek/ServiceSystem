@@ -22,10 +22,11 @@ namespace ServiceSystem
         {
             String username = textBox1.Text;
             String password = textBox2.Text;
+            PERSONEL person;
             Form form;
             if (comboBox1.Text == "Administrator")
             {
-                if (LoginController.Login(username, password, "adm"))
+                if (LoginController.Login(username, password, "adm") != null)
                 {
                     form = new AdministratorWindow();
                     form.Show();
@@ -40,9 +41,10 @@ namespace ServiceSystem
             }
             else if (comboBox1.Text == "Manager")
             {
-                if (LoginController.Login(username, password, "man"))
+                person = LoginController.Login(username, password, "man");
+                if ( person != null)
                 {
-                    form = new ClientListWindow();
+                    form = new ClientListWindow(person);
                     form.Show();
                     this.Hide();
                 }
@@ -55,7 +57,7 @@ namespace ServiceSystem
             }
             else if (comboBox1.Text == "Worker")
             {
-                if (LoginController.Login(username, password, "wrk"))
+                if (LoginController.Login(username, password, "wrk") != null)
                 {
                     form = new ActivityListWindow(Mode.WORKER);
                     form.Show();

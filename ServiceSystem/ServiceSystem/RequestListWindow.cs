@@ -13,23 +13,28 @@ namespace ServiceSystem
 {
     public partial class RequestListWindow : Form
     {
-        public RequestListWindow()
+        public PERSONEL manager;
+        public RequestListWindow(PERSONEL man)
         {
             InitializeComponent();
+            manager = man;
+            dataGridView1.DataSource = RequestController.GetAllRequests();
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
+            OBJECT obj = ObjectController.GetObjectById(selectedRequest.nr_obj);
             Form form;
-            form = new RequestWindow(null);
+            form = new RequestWindow(obj, selectedRequest, manager);
             form.Show();
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
-            var selectedActivity = (WorkerActivity)this.dataGridView1.CurrentRow.DataBoundItem;
+            //var selectedActivity = (WorkerActivity)this.dataGridView1.CurrentRow.DataBoundItem;
             Form form;
-            form = new ActivityWindow(Mode.MANAGER, selectedActivity);
+            form = new ActivityWindow(Mode.MANAGER, null);
             form.Show();
         }
 
@@ -43,6 +48,13 @@ namespace ServiceSystem
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void OnDeleteClick(object sender, EventArgs e)
+        {
+            var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
+            RequestController.DeleteRequest(selectedRequest);
+            dataGridView1.DataSource = RequestController.GetAllRequests();
         }
     }
 }

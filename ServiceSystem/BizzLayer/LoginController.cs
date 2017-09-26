@@ -10,20 +10,20 @@ namespace BizzLayer
 {
     public class LoginController
     {
-        public static bool Login(String username, String password, String role)
+        public static PERSONEL Login(String username, String password, String role)
         {
             ServiceSystemDataContext dbContext = new ServiceSystemDataContext();
-            var query = from p in dbContext.PERSONEL
+            var query = (from p in dbContext.PERSONEL
                         where p.username.Equals(username)
                         where p.pass.Equals(password)
                         where p.role.Equals(role)
-                        select p;
+                        select p).FirstOrDefault();
 
-            if (query.Count() == 1)
+            if (query != null)
             {
-                return true;
+                return query;
             }
-            return false;
+            return null;
         }
     }
 }

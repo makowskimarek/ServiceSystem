@@ -13,9 +13,11 @@ namespace ServiceSystem
 {
     public partial class ClientListWindow : Form
     {
-        public ClientListWindow()
+        public PERSONEL manager;
+        public ClientListWindow(PERSONEL man)
         {
             InitializeComponent();
+            manager = man;
             dataGridView1.DataSource = ClientController.GetAllClients();
             dataGridView1.Columns[5].Visible = false;
         }
@@ -35,13 +37,6 @@ namespace ServiceSystem
             form.Show();
         }
 
-        private void button6_Click(object sender, EventArgs e)
-        {
-            Form form;
-            form = new ObjectListWindow();
-            form.Show();
-        }
-
         private void logoutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -53,14 +48,14 @@ namespace ServiceSystem
         private void objectToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new ObjectListWindow();
+            form = new ObjectListWindow(manager);
             form.Show();
         }
 
         private void requestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new RequestListWindow();
+            form = new RequestListWindow(manager);
             form.Show();
         }
 
@@ -108,6 +103,13 @@ namespace ServiceSystem
             client.fname = textBox2.Text;
             client.lname = textBox3.Text;
             dataGridView1.DataSource = ClientController.GetClientsByCriteria(client);
+        }
+
+        private void onShowClick(object sender, EventArgs e)
+        {
+            Form form;
+            form = new ObjectListWindow(manager);
+            form.Show();
         }
     }
 }

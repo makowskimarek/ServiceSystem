@@ -13,29 +13,20 @@ namespace ServiceSystem
 {
     public partial class ObjectListWindow : Form
     {
-        public ObjectListWindow()
+        public PERSONEL manager;
+        public ObjectListWindow(PERSONEL man)
         {
             InitializeComponent();
+            manager = man;
             dataGridView1.DataSource = ObjectController.GetAllObjects();
             //dataGridView1.Columns[4].Visible = false;
             //dataGridView1.Columns[5].Visible = false;
         }
 
-        private void button5_Click(object sender, EventArgs e)
-        {
-            var selectedObj = (ObjectAndClient)this.dataGridView1.CurrentRow.DataBoundItem;
-            OBJECT obj = new OBJECT();
-            obj.code = selectedObj.code;
-            obj.code_type = selectedObj.code_type;
-            Form form;
-            form = new RequestWindow(obj);
-            form.Show();
-        }
-
         private void button6_Click(object sender, EventArgs e)
         {
             Form form;
-            form = new RequestListWindow();
+            form = new RequestListWindow(manager);
             form.Show();
         }
 
@@ -92,6 +83,18 @@ namespace ServiceSystem
             }
             newObject.code_type = comboBox1.Text;
             dataGridView1.DataSource = ObjectController.GetObjectsByCriteria(newClient, newObject);
+        }
+
+        private void onAddClick(object sender, EventArgs e)
+        {
+            var selectedObj = (ObjectAndClient)this.dataGridView1.CurrentRow.DataBoundItem;
+            OBJECT obj = new OBJECT();
+            obj.code = selectedObj.code;
+            obj.code_type = selectedObj.code_type;
+            obj.nr_obj = selectedObj.nr_obj;
+            Form form;
+            form = new RequestWindow(obj, null, manager);
+            form.Show();
         }
     }
 }

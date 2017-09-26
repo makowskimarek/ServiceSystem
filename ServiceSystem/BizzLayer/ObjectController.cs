@@ -57,6 +57,24 @@ namespace BizzLayer
             }
         }
 
+        public static OBJECT GetObjectById(int id)
+        {
+            using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
+            {
+                try
+                {
+                    var query = (from o in dbContext.OBJECT
+                                where o.nr_obj == id
+                                select o).FirstOrDefault();
+                    return query;
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
+            }
+        }
+
         public static List<ObjectAndClient> GetObjectsByCriteria(CLIENT client, OBJECT obj)
         {
             using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
