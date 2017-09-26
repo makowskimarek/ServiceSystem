@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityController.cs" />
     <Compile Include="ClientController.cs" />
     <Compile Include="ObjectController.cs" />
     <Compile Include="PersonelController.cs" />
