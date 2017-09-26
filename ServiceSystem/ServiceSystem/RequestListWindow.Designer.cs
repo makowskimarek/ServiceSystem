@@ -88,7 +88,7 @@
             this.button5.TabIndex = 40;
             this.button5.Text = "Add";
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button5.Click += new System.EventHandler(this.OnAddClick);
             // 
             // button4
             // 
@@ -144,6 +144,7 @@
             this.button1.TabIndex = 35;
             this.button1.Text = "search";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.OnSearchClick);
             // 
             // groupBox2
             // 
@@ -171,6 +172,9 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Car",
+            "Truck"});
             this.comboBox1.Location = new System.Drawing.Point(58, 39);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.comboBox1.Name = "comboBox1";

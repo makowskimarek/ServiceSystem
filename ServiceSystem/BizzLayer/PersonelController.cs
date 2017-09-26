@@ -21,6 +21,16 @@ namespace BizzLayer
             public String role { get; set; }
         }
 
+        public static List<PERSONEL> GetWorkers()
+        {
+            using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
+            {
+                var query = (from p in dbContext.PERSONEL
+                             where p.role == "wrk"
+                             select p).ToList();
+                return query;
+            }
+        }
 
         public static bool RegisterAccount(Personel new_account)
         {

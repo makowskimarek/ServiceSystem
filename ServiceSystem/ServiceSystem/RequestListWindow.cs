@@ -19,6 +19,8 @@ namespace ServiceSystem
             InitializeComponent();
             manager = man;
             dataGridView1.DataSource = RequestController.GetAllRequests();
+            dataGridView1.Columns["OBJECT"].Visible = false;
+            dataGridView1.Columns["PERSONEL"].Visible = false;
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -26,15 +28,7 @@ namespace ServiceSystem
             var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
             OBJECT obj = ObjectController.GetObjectById(selectedRequest.nr_obj);
             Form form;
-            form = new RequestWindow(obj, selectedRequest, manager);
-            form.Show();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            //var selectedActivity = (WorkerActivity)this.dataGridView1.CurrentRow.DataBoundItem;
-            Form form;
-            form = new ActivityWindow(Mode.MANAGER, null);
+            form = new RequestWindow(obj, selectedRequest, manager, this, null);
             form.Show();
         }
 
@@ -55,6 +49,34 @@ namespace ServiceSystem
             var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
             RequestController.DeleteRequest(selectedRequest);
             dataGridView1.DataSource = RequestController.GetAllRequests();
+        }
+
+        public void PerformRefresh()
+        {
+            dataGridView1.DataSource = RequestController.GetAllRequests();
+        }
+
+        private void OnSearchClick(object sender, EventArgs e)
+        {
+            CLIENT client = new CLIENT();
+            client.name = textBox1.Text;
+            client.fname = textBox2.Text;
+            client.lname = textBox3.Text;
+            OBJECT obj = new OBJECT();
+            obj.code = textBox4.Text;
+            obj.code_type = comboBox1.Text;
+            dataGridView1.DataSource = RequestController.GetRequestsByCriteria(client, obj);
+            dataGridView1.Columns[6].Visible = false;
+            dataGridView1.Columns[7].Visible = false;
+        }
+
+        private void OnAddClick(object sender, EventArgs e)
+        {
+            var selectedRequest = (REQUEST)this.dataGridView1.CurrentRow.DataBoundItem;
+            OBJECT obj = ObjectController.GetObjectById(selectedRequest.nr_obj);
+            Form form;
+            form = new ActivityWindow(Mode.MANAGER, null, obj, selectedRequest);
+            form.Show();
         }
     }
 }

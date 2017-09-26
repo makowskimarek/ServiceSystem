@@ -57,6 +57,23 @@ namespace BizzLayer
             }
         }
 
+        public static List<REQUEST> GetRequestsByCriteria(CLIENT client, OBJECT obj)
+        {
+            using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())
+            {
+                var requests = GetAllRequests();
+                var r = from rs in requests
+                        select rs;
+                var objects = ObjectController.GetObjectsByCriteria(client, obj);
+                var o = from ob in objects
+                        select ob;
+                var q = (from rs in r
+                        join ob in o on rs.nr_obj equals ob.nr_obj
+                        select rs).ToList();
+                return q;
+            }
+        }
+
         public static void DeleteRequest(REQUEST request)
         {
             using (ServiceSystemDataContext dbContext = new ServiceSystemDataContext())

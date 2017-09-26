@@ -16,7 +16,9 @@ namespace ServiceSystem
         OBJECT currObject;
         PERSONEL manager;
         REQUEST currRequest;
-        public RequestWindow(OBJECT obj, REQUEST req, PERSONEL man)
+        RequestListWindow requestForm;
+        ObjectListWindow objectForm;
+        public RequestWindow(OBJECT obj, REQUEST req, PERSONEL man, RequestListWindow form, ObjectListWindow form1)
         {
             InitializeComponent();
             manager = man;
@@ -25,6 +27,14 @@ namespace ServiceSystem
             {
                 currRequest = req;
                 InitializeRequestDetails();
+            }
+            if (form != null) {
+                requestForm = form;
+            }
+
+            if (form1 != null)
+            {
+                objectForm = form1;
             }
             InitializeObject();
         }
@@ -106,6 +116,7 @@ namespace ServiceSystem
                 request.id_req = currRequest.id_req;
                 if (RequestController.ChangeRequestDetails(request))
                 {
+                    requestForm.PerformRefresh();
                     this.Close();
                 }
             }
@@ -113,6 +124,7 @@ namespace ServiceSystem
             {
                 if (RequestController.AddNewRequest(request))
                 {
+                   objectForm.PerformRefresh();
                     this.Close();
                 }
             }

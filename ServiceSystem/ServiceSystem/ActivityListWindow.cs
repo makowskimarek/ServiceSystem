@@ -47,12 +47,12 @@ namespace ServiceSystem
         {
             try
             {
-                var selectedActivity = (WorkerActivity)this.dataGridView1.CurrentRow.DataBoundItem;
+                ACTIVITY selectedActivity = (ACTIVITY)this.dataGridView1.CurrentRow.DataBoundItem;
                 Form form;
                 if (mode == Mode.MANAGER)
-                    form = new ActivityWindow(Mode.MANAGER, selectedActivity);
+                    form = new ActivityWindow(Mode.MANAGER, selectedActivity, null, null);
                 else
-                    form = new ActivityWindow(Mode.WORKER, selectedActivity);
+                    form = new ActivityWindow(Mode.WORKER, selectedActivity, null, null);
                 form.Show();
             }
             catch(Exception ex)

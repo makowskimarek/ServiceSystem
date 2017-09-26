@@ -93,7 +93,7 @@ namespace ServiceSystem
             obj.code_type = selectedObj.code_type;
             obj.nr_obj = selectedObj.nr_obj;
             Form form;
-            form = new RequestWindow(obj, null, manager);
+            form = new RequestWindow(obj, null, manager, null, this);
             form.Show();
         }
     }
